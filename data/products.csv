@@ -1,0 +1,31 @@
+product_id,product_name,category,unit_price,unit,supplier_name,in_stock
+P001,Banana (1 dozen),Fruits,29.0,dozen,FreshFarms Co,True
+P002,Apple - Shimla (1 kg),Fruits,180.0,kg,HillFresh,True
+P003,Mango - Alphonso (1 kg),Fruits,320.0,kg,Konkan Delights,True
+P004,Watermelon (1 piece),Fruits,60.0,piece,GreenHarvest,True
+P005,Grapes - Green (500g),Fruits,80.0,pack,VineFresh,True
+P006,Papaya (1 kg),Fruits,45.0,kg,TropicFarm,True
+P007,Tomato (1 kg),Vegetables,35.0,kg,FreshFarms Co,True
+P008,Onion (1 kg),Vegetables,40.0,kg,RootVeg Ltd,True
+P009,Potato (1 kg),Vegetables,28.0,kg,RootVeg Ltd,True
+P010,Spinach (250g),Vegetables,22.0,pack,GreenLeaf,True
+P011,Brinjal (500g),Vegetables,30.0,pack,GreenHarvest,True
+P012,Carrot (500g),Vegetables,35.0,pack,FreshFarms Co,True
+P013,Amul Milk (1 litre),Dairy,68.0,litre,Amul,True
+P014,Amul Butter (500g),Dairy,285.0,pack,Amul,True
+P015,Curd - Mother Dairy (400g),Dairy,50.0,pack,Mother Dairy,True
+P016,Paneer (200g),Dairy,95.0,pack,Nandini,True
+P017,Cheese Slices - Amul (200g),Dairy,110.0,pack,Amul,True
+P018,Ghee - Amul (500ml),Dairy,325.0,bottle,Amul,False
+P019,Minute Maid Orange (1 litre),Beverages,95.0,bottle,Coca-Cola India,True
+P020,Red Bull (250ml),Beverages,125.0,can,Red Bull India,True
+P021,Tropicana Apple Juice (1 litre),Beverages,130.0,bottle,PepsiCo India,True
+P022,Bisleri Water (1 litre),Beverages,20.0,bottle,Bisleri,True
+P023,Nescafe Classic (200g),Beverages,340.0,jar,Nestle India,True
+P024,Tetley Green Tea (25 bags),Beverages,130.0,pack,Tetley,True
+P025,Lay's Classic Salted (80g),Snacks,20.0,pack,PepsiCo India,True
+P026,Britannia Good Day Cookies (200g),Snacks,45.0,pack,Britannia,True
+P027,Maggi Noodles 2-min (70g × 4),Snacks,68.0,pack,Nestle India,True
+P028,Haldiram's Aloo Bhujia (200g),Snacks,95.0,pack,Haldiram's,True
+P029,KitKat (41.5g),Snacks,30.0,piece,Nestle India,False
+P030,Parle-G Biscuits (800g),Snacks,60.0,pack,Parle,True
