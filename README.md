@@ -100,13 +100,6 @@ Scheduled daily execution.
 
 ---
 
-## Skills Evidence
-
-All Python, SQL, and Spark answers are available in:
-SKILLS_EVIDENCE.md
-
----
-
 ## Notes
 
 * All scripts are available in /scripts
