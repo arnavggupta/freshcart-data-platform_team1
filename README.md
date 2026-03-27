@@ -38,26 +38,6 @@ Workflows Automation
 
 ---
 
-## Repository Structure
-
-```
-freshcart-data-platform/
-│
-├── data/
-├── scripts/
-│   ├── freshcart_utils.py
-│   ├── data_profiler.py
-│   └── kinesis_producer.py
-│
-├── notebooks/
-├── docs/
-├── SKILLS_EVIDENCE.md
-├── README.md
-└── .gitignore
-```
-
----
-
 ## Data Pipeline
 
 ### Ingestion
