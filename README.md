@@ -1,6 +1,16 @@
 # FreshCart Data Platform — End-to-End Data Engineering Pipeline
 
-**Name:** 
+**Team Members** 
+ID	Name	Email
+TSV848	Shubham Kumar	shubham.kumar1@sigmoidanalytics.com
+TSV839	Soham Khanna	soham.khanna@sigmoidanalytics.com
+TSV755	Suraj Kumar Singh	suraj.s@sigmoidanalytics.com
+TSV865	Suroj Verma	suroj.verma@sigmoidanalytics.com
+TSV780	Aditya Rajesh Gahukar	aditya.rajesh@sigmoidanalytics.com
+TSV859	Aditya Sah	aditya.sah@sigmoidanalytics.com
+TSV771	Anshu	anshu@sigmoidanalytics.com
+TSV781	Arnav Gupta	[Add email if available]
+Project Overview
 
 ---
 
