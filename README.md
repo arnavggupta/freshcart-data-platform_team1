@@ -86,16 +86,6 @@ freshcart-data-platform/
 
 ---
 
-## Sample Output (Gold Layer)
-
-| city      | total_orders | total_revenue | avg_order_value |
-| --------- | ------------ | ------------- | --------------- |
-| Bangalore | 120          | 45000         | 375             |
-| Mumbai    | 98           | 38200         | 390             |
-| Pune      | 75           | 28500         | 380             |
-
----
-
 ## Workflow
 
 Databricks Workflow: FreshCart_Daily_Pipeline
