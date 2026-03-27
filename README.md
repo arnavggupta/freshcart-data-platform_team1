@@ -6,7 +6,7 @@
 | ------ | --------------------- |
 | TSV780 | Aditya Rajesh Gahukar |
 | TSV859 | Aditya Sah            |
-| TSV771 | Anshu                 |
+| TSV771 | Anshu Kashyap             |
 | TSV781 | Arnav Gupta           |
 | TSV848 | Shubham Kumar         |
 | TSV839 | Soham Khanna          |
