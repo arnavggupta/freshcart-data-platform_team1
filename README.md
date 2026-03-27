@@ -1,16 +1,17 @@
 # FreshCart Data Platform — End-to-End Data Engineering Pipeline
 
-**Team Members** 
-ID	Name	Email
-TSV848	Shubham Kumar	shubham.kumar1@sigmoidanalytics.com
-TSV839	Soham Khanna	soham.khanna@sigmoidanalytics.com
-TSV755	Suraj Kumar Singh	suraj.s@sigmoidanalytics.com
-TSV865	Suroj Verma	suroj.verma@sigmoidanalytics.com
-TSV780	Aditya Rajesh Gahukar	aditya.rajesh@sigmoidanalytics.com
-TSV859	Aditya Sah	aditya.sah@sigmoidanalytics.com
-TSV771	Anshu	anshu@sigmoidanalytics.com
-TSV781	Arnav Gupta	[Add email if available]
-Project Overview
+## Team Members
+
+| ID     | Name                  | Email                                                                             |
+| ------ | --------------------- | --------------------------------------------------------------------------------- |
+| TSV848 | Shubham Kumar         | [shubham.kumar1@sigmoidanalytics.com](mailto:shubham.kumar1@sigmoidanalytics.com) |
+| TSV839 | Soham Khanna          | [soham.khanna@sigmoidanalytics.com](mailto:soham.khanna@sigmoidanalytics.com)     |
+| TSV755 | Suraj Kumar Singh     | [suraj.s@sigmoidanalytics.com](mailto:suraj.s@sigmoidanalytics.com)               |
+| TSV865 | Suroj Verma           | [suroj.verma@sigmoidanalytics.com](mailto:suroj.verma@sigmoidanalytics.com)       |
+| TSV780 | Aditya Rajesh Gahukar | [aditya.rajesh@sigmoidanalytics.com](mailto:aditya.rajesh@sigmoidanalytics.com)   |
+| TSV859 | Aditya Sah            | [aditya.sah@sigmoidanalytics.com](mailto:aditya.sah@sigmoidanalytics.com)         |
+| TSV771 | Anshu                 | [anshu@sigmoidanalytics.com](mailto:anshu@sigmoidanalytics.com)                   |
+| TSV781 | Arnav Gupta           | [Add email if available]                                                          |
 
 ---
 
@@ -45,6 +46,7 @@ Workflows Automation
 **Databricks:** Delta Lake, PySpark, Databricks SQL, Workflows
 **Languages:** Python, SQL
 **Tools:** Git, GitHub
+
 
 ---
 
@@ -90,9 +92,16 @@ Scheduled daily execution.
 
 ---
 
+## Skills Evidence
+
+All Python, SQL, and Spark answers are available in:
+SKILLS_EVIDENCE.md
+
+---
+
 ## Notes
 
-* All scripts are available in /scripts
-* Databricks notebooks are exported in /notebooks
-* Supporting screenshots are stored in /docs
-* SKILLS_EVIDENCE.md is the primary evaluation document
+* Scripts are available in /scripts
+* Notebooks are in /notebooks
+* Screenshots are in /docs
+* SKILLS_EVIDENCE.md is the primary evaluation file
