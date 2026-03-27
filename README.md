@@ -2,16 +2,16 @@
 
 ## Team Members
 
-| ID     | Name                  | Email                                                                             |
-| ------ | --------------------- | --------------------------------------------------------------------------------- |
-| TSV848 | Shubham Kumar         | [shubham.kumar1@sigmoidanalytics.com](mailto:shubham.kumar1@sigmoidanalytics.com) |
-| TSV839 | Soham Khanna          | [soham.khanna@sigmoidanalytics.com](mailto:soham.khanna@sigmoidanalytics.com)     |
-| TSV755 | Suraj Kumar Singh     | [suraj.s@sigmoidanalytics.com](mailto:suraj.s@sigmoidanalytics.com)               |
-| TSV865 | Suroj Verma           | [suroj.verma@sigmoidanalytics.com](mailto:suroj.verma@sigmoidanalytics.com)       |
-| TSV780 | Aditya Rajesh Gahukar | [aditya.rajesh@sigmoidanalytics.com](mailto:aditya.rajesh@sigmoidanalytics.com)   |
-| TSV859 | Aditya Sah            | [aditya.sah@sigmoidanalytics.com](mailto:aditya.sah@sigmoidanalytics.com)         |
-| TSV771 | Anshu                 | [anshu@sigmoidanalytics.com](mailto:anshu@sigmoidanalytics.com)                   |
-| TSV781 | Arnav Gupta           | [Add email if available]                                                          |
+| ID     | Name                  |
+| ------ | --------------------- |
+| TSV780 | Aditya Rajesh Gahukar |
+| TSV859 | Aditya Sah            |
+| TSV771 | Anshu                 |
+| TSV781 | Arnav Gupta           |
+| TSV848 | Shubham Kumar         |
+| TSV839 | Soham Khanna          |
+| TSV755 | Suraj Kumar Singh     |
+| TSV865 | Suroj Verma           |
 
 ---
 
@@ -25,7 +25,7 @@ The pipeline covers ingestion, transformation, and analytics using AWS and Datab
 
 ## Architecture
 
-```
+```id="o6l3dz"
 GitHub → AWS S3 → AWS Glue → AWS Athena  
 Kinesis Streams → Firehose → S3 (Streaming)  
 AWS Lambda → CloudWatch → Redshift  
@@ -47,8 +47,8 @@ Workflows Automation
 **Languages:** Python, SQL
 **Tools:** Git, GitHub
 
-
 ---
+
 
 ## Data Pipeline
 
