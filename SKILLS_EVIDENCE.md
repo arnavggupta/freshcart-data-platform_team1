@@ -19,44 +19,26 @@ Block 1 — Project Repository Setup
 
 import csv
 
-
 def read_csv(filepath):
     """
-    Read a CSV file and return a list of dictionaries.
-
-    Args:
-        filepath (str): Path to the CSV file.
-
-    Returns:
-        list: A list of dicts representing each row in the CSV.
-
-    Raises:
-        FileNotFoundError: If the CSV file does not exist at the given path.
+    Reads CSV file and returns list of dictionaries
     """
+    data = []
     try:
-        with open(filepath, mode='r', encoding='utf-8') as f:
+        with open(filepath, 'r') as f:
             reader = csv.DictReader(f)
-            return [row for row in reader]
+            for row in reader:
+                data.append(row)
     except FileNotFoundError:
-        print(f"[ERROR] File not found: {filepath}. Please check the path and try again.")
-        return []
+        print(f"Error: File {filepath} not found")
+    return data
 
 
 def validate_not_null(data, column):
     """
-    Check if any row has None or empty string in the specified column.
-
-    Args:
-        data (list): List of dicts (output of read_csv).
-        column (str): The column name to validate.
-
-    Returns:
-        dict: {'column': str, 'null_count': int, 'valid': bool}
+    Checks null values in a column
     """
-    null_count = sum(
-        1 for row in data
-        if row.get(column) is None or row.get(column) == ''
-    )
+    null_count = sum(1 for row in data if not row[column])
     return {
         'column': column,
         'null_count': null_count,
@@ -66,47 +48,37 @@ def validate_not_null(data, column):
 
 def count_duplicates(data, key_column):
     """
-    Count the number of duplicate values in the specified key column.
-
-    Args:
-        data (list): List of dicts (output of read_csv).
-        key_column (str): The column to check for duplicates.
-
-    Returns:
-        int: Count of duplicate values found.
+    Counts duplicate values
     """
     seen = set()
     duplicates = 0
+
     for row in data:
-        val = row.get(key_column)
+        val = row[key_column]
         if val in seen:
             duplicates += 1
         else:
             seen.add(val)
+
     return duplicates
 
 
 def log_summary(table_name, row_count, null_report, dup_count):
     """
-    Print a formatted summary line for a given table.
-
-    Args:
-        table_name (str): Name of the table/file being profiled.
-        row_count (int): Total number of rows.
-        null_report (dict): Output from validate_not_null().
-        dup_count (int): Output from count_duplicates().
+    Prints summary
     """
-    col   = null_report['column']
-    nulls = null_report['null_count']
-    print(f"[FreshCart] {table_name} | rows: {row_count} | nulls in {col}: {nulls} | duplicates: {dup_count}")
+    print(f"[FreshCart] {table_name} | rows: {row_count} | "
+          f"nulls in {null_report['column']}: {null_report['null_count']} | "
+          f"duplicates: {dup_count}")
 
 
-if __name__ == '__main__':
-    # Test on orders.csv
-    orders      = read_csv('data/orders.csv')
-    null_report = validate_not_null(orders, 'order_id')
-    dup_count   = count_duplicates(orders, 'order_id')
-    log_summary('orders', len(orders), null_report, dup_count)
+if __name__ == "__main__":
+    data = read_csv('../data/orders.csv')
+
+    null_report = validate_not_null(data, 'order_id')
+    dup_count = count_duplicates(data, 'order_id')
+
+    log_summary('orders', len(data), null_report, dup_count)
 ```
 
 ---
@@ -230,8 +202,9 @@ FreshCart — Data Profiler Report
 Profiling complete.
 ```
 
-> **Screenshot →** `docs/q2_data_profiler_output.png`
-> *(Full terminal output of running data_profiler.py — all 5 files profiled)*
+> **Screenshot →** 
+![Data Profiler Output 2](docs/q2_freshcart_data_profiling_1.png)
+![Data Profiler Output 1](docs/q2_data_profiler_output.png)
 
 ---
 
@@ -244,99 +217,108 @@ Sends FreshCart order events to Kinesis Data Stream using an OOP class.
 Block 5 — Real-Time Order Streaming with Kinesis
 """
 
+import boto3
 import csv
 import json
 import time
-import boto3
 from datetime import datetime
 from botocore.exceptions import ClientError
 
 
 class OrderEventProducer:
     """
-    Produces synthetic order events and sends them to an Amazon Kinesis
-    Data Stream. Implements configurable batch size and delay.
+    Produces real-time order events from a CSV file and sends them
+    to an AWS Kinesis Data Stream. Tracks sent/failed counts.
     """
 
     CONFIG = {
-        'stream_name':   'freshcart-orders-stream',
-        'region':        'eu-central-1',
-        'batch_size':    50,
+        'stream_name': 'freshcart-orders-stream',
+        'region': 'ap-south-1',
+        'batch_size': 450,
         'delay_seconds': 0.1
     }
 
     def __init__(self):
-        """Initialise the Kinesis boto3 client and tracking counters."""
         self.client = boto3.client('kinesis', region_name=self.CONFIG['region'])
-        self.sent   = 0
+        self.sent = 0
         self.failed = 0
 
     def build_event(self, row):
         """
-        Build a JSON event payload from a CSV row dict.
+        Takes a CSV row dict, attaches a UTC timestamp, and
+        returns the event as a JSON string.
 
         Args:
-            row (dict): A single row from orders.csv.
+            row (dict): A single row from the orders CSV.
 
         Returns:
-            str: JSON string with event_timestamp appended.
+            str: JSON-encoded event string.
         """
-        event = dict(row)
+        event = dict(row)  # copy first so that original row remains untouched
         event['event_timestamp'] = datetime.utcnow().isoformat()
         return json.dumps(event)
 
     def send_event(self, event_json):
         """
-        Send a single event JSON string to Kinesis using put_record().
+        Sends one event JSON string to Kinesis using put_record().
+        Uses order_id as the partition key if available.
         Increments self.sent on success, self.failed on ClientError.
 
         Args:
-            event_json (str): JSON-encoded order event string.
+            event_json (str): The JSON string to send.
         """
         try:
             self.client.put_record(
                 StreamName=self.CONFIG['stream_name'],
-                Data=event_json.encode('utf-8'),
-                PartitionKey='orders'
+                Data=event_json,
+                PartitionKey=str(json.loads(event_json).get('order_id', '1'))
             )
             self.sent += 1
         except ClientError as e:
             self.failed += 1
-            print(f"[ERROR] Kinesis put_record failed: {e}")
+            print(f"Error: {e}")
 
-    def run(self, csv_path):
-        """
-        Read orders.csv row by row and send each as a Kinesis event.
-        Limits to CONFIG batch_size rows with CONFIG delay_seconds between each.
+def run(self, csv_path): # Added a try except block for error handling
+    """
+        Reads orders from a CSV file row by row. Sends up to
+        CONFIG['batch_size'] events with a delay between each.
+        Prints a final summary of sent vs failed counts.
 
         Args:
             csv_path (str): Path to the orders CSV file.
         """
-        with open(csv_path, mode='r', encoding='utf-8') as f:
+    try:
+        with open(csv_path, 'r') as f:
             reader = csv.DictReader(f)
+
             for i, row in enumerate(reader):
                 if i >= self.CONFIG['batch_size']:
                     break
-                event_json = self.build_event(row)
-                self.send_event(event_json)
+
+                event = self.build_event(row)
+                self.send_event(event)
+
                 time.sleep(self.CONFIG['delay_seconds'])
 
-        print(f"Kinesis Producer complete — Sent: {self.sent} | Failed: {self.failed}")
+    except FileNotFoundError:
+        print(f"[ERROR] File not found: {csv_path}")
+        return
+
+    print(f"Sent: {self.sent} | Failed: {self.failed}")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     producer = OrderEventProducer()
-    producer.run('data/orders.csv')
+    producer.run('../data/orders.csv')
 ```
 
-> **Screenshot →** `docs/q3_lambda_function_config.png`
+> **Screenshot →** 
+![Lambda Function Config](docs/q3_freshcart_lambda_trigger.png)
 > *(Lambda console — freshcart-producer-team1 function, EventBridge trigger enabled, schedule rate 1 minute)*
 
-> **Screenshot →** `docs/q3_s3_streaming_folder.png`
+> **Screenshot →** 
+![](docs/q3_s3_streaming_folder.png)
 > *(S3 streaming/ folder showing JSON files delivered by Firehose)*
-
-> **Screenshot →** `docs/q3_cloudwatch_lambda_logs.png`
-> *(CloudWatch log group showing Lambda invocation logs)*
 
 ---
 
@@ -506,14 +488,17 @@ WHERE total_orders > 3
 ORDER BY total_orders DESC;
 ```
 
-> **Screenshot →** `docs/q4_sql_s1a_athena_rank.png`
-> *(Athena console — S1a query code + results panel showing customer rankings by city)*
+> **Screenshot →** 
+![](docs/q4_sql_s1a_athena_rank.png)
+> *(Athena console — S1a query results panel showing customer rankings by city)*
 
-> **Screenshot →** `docs/q4_sql_s1b_athena_lag.png`
-> *(Athena console — S1b query code + results panel showing month-over-month order counts)*
+> **Screenshot →** 
+![](docs/q4_sql_s1b_athena_lag.png)
+> *(Athena console — S1b query results panel showing month-over-month order counts)*
 
-> **Screenshot →** `docs/q4_sql_s1c_athena_cte.png`
-> *(Athena console — S1c query code + results panel showing 72 qualifying customers)*
+> **Screenshot →** 
+![](docs/q4_sql_s1c_athena_cte.png)
+> *(Athena console — S1c query results panel showing 72 qualifying customers)*
 
 ---
 
@@ -573,11 +558,13 @@ WHERE city_rank <= 3
 ORDER BY city, city_rank;
 ```
 
-> **Screenshot →** `docs/q6_sql_s3a_silver_running_total.png`
-> *(Databricks notebook cell output — S3a running revenue totals table)*
+> **Screenshot →** 
+![](docs/q6_sql_s3a_silver_running_total.png)
+> *(Athrna console output — S3a running revenue totals table)*
 
-> **Screenshot →** `docs/q6_sql_s3b_silver_top3_per_city.png`
-> *(Databricks notebook cell output — S3b top 3 customers per city table)*
+> **Screenshot →** 
+![](docs/q6_sql_s3b_silver_top3_per_city.png)
+> *(Athena console output — S3b top 3 customers per city table)*
 
 ---
 
